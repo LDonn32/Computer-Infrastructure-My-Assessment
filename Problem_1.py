@@ -1,6 +1,8 @@
 # Problem 1: Data from yfinance
 # Author: Laura Donnelly
 
+
+'''
 import yfinance as yf
 import os
 from datetime import datetime
@@ -34,3 +36,48 @@ def get_data():
 
     # Save the data to a CSV file
     data.to_csv(filename)
+'''
+
+
+import os
+import yfinance as yf
+import pandas as pd
+from datetime import datetime
+
+
+# Define function to get data
+# This function will download the data hourly for the last 5 days for FAANG stocks
+def get_data():
+    
+
+    
+
+    # Define FAANG tickers
+    tickers = ["META", "AAPL", "AMZN", "NFLX", "GOOG"]
+    
+    # Download data using yfinance (hourly interval, past 5 days)
+    print("Downloading hourly data for FAANG stocks...")
+    data = yf.download(
+        tickers=tickers,
+        period="5d",
+        interval="1h",
+        group_by='ticker'
+    )
+
+    # Create 'data' directory in the repo root if it doesn't exist
+    data_dir = os.path.join(os.getcwd(), "data")
+    os.makedirs(data_dir, exist_ok=True)
+
+    # Generate timestamp for filename
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    filename = f"{timestamp}.csv"
+    filepath = os.path.join(data_dir, filename)
+
+    # Save the combined dataframe to CSV
+    data.to_csv(filepath)
+
+    print(f"Data successfully saved to: {filepath}")
+    return filepath
+
+# Call the function directly
+get_data()
