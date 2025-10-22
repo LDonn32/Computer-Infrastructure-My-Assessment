@@ -38,7 +38,7 @@ def get_data():
     data.to_csv(filename)
 '''
 
-
+'''
 import os
 import yfinance as yf
 import pandas as pd
@@ -81,3 +81,15 @@ def get_data():
 
 # Call the function 
 get_data()
+
+'''
+
+
+# Dates and times.
+import datetime as dt
+
+# Data frames.
+import pandas as pd
+
+# Yahoo Finance data.
+import yfinance as yf
