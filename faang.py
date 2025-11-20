@@ -57,10 +57,8 @@ def plot_data():
     # Save the plot as a PNG file
     fig.figure.savefig(f"plots/{os.path.splitext(latest_file)[0][5:]}.png")
 
+
     
-    
-    # Save the plot as a PNG file in the 'plots' directory, using the CSV filename as the image name.
-    fig.figure.savefig(f"plots/{os.path.splitext(latest_file)[0][5:]}.png")
 
 plot_data()  # Call the function to generate and save the plot.
 
