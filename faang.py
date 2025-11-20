@@ -42,14 +42,23 @@ def plot_data():
     # Read the CSV file into a DataFrame, using multi-level headers and parsing the index as dates.
     data = pd.read_csv(latest_file, header=[0, 1], index_col=0, parse_dates=True)
     # Plot the 'Close' prices for all stocks.
+    
+   # Plot the dataa.
     fig = data.plot(
-        y='Close',  # Plot the 'Close' price column for each stock.
-        title='FAANG Stock Prices Over the Last 5 Days',  
-        xlabel='Date',    
-        ylabel='Closing Price', 
-        rot=30,           # Rotate x-axis labels for better readability.
-        legend=True       
+        y='Close',
+        title='FAANG Stock Prices Over the Last 5 Days',
+        xlabel='Date',
+        ylabel='Closing Price',
+        rot=30,
+        legend=True
     )
+    # Move the legend to the top right, outside the plot area, so not to obstruct the data.
+    fig.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
+    # Save the plot as a PNG file
+    fig.figure.savefig(f"plots/{os.path.splitext(latest_file)[0][5:]}.png")
+
+    
+    
     # Save the plot as a PNG file in the 'plots' directory, using the CSV filename as the image name.
     fig.figure.savefig(f"plots/{os.path.splitext(latest_file)[0][5:]}.png")
 
