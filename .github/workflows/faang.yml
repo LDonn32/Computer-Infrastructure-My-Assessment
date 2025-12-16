@@ -1,18 +1,55 @@
-name: Automated FAANG Report 
-run-name: ${{ github.actor }} is =creating FAANG Report
-on: [push, workflow_dispatch]
+# Adapted from https://chatgpt.com/s/t_6941db0260a481918500c4a9a76d919c
+
+
+name: Production of FAANG Report
+run-name: ${{ github.actor }} is creating automated FAANG Report
+on: 
+  schedule:
+  - cron: '26 8 * * 6'  # At 8 AM every Saturday
+  workflow_dispatch:
+permissions: write-all
 jobs:
-  Explore-GitHub-Actions:
+  Create_FAANG_Report:
+    name: Create FAANG Report
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v5
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+      - name: Install Dependencies
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          pip install -r requirements.txt
+      - run: |
+          echo "Starting FAANG Report Generation"
+      - name: FAANG Report Generation
+        run: |
+          ${GITHUB_WORKSPACE}/faang.py
+      - run: |
+          echo "FAANG Report Generated Successfully"
+      - name: "Commit and Push Changes"
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git add .
+          git commit -m "Automated FAANG Report Update" || echo "No changes to commit"
+          git push origin HEAD:main
+      - run: |
+          echo "FAANG Report Changes Pushed Successfully"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
